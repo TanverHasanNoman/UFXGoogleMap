@@ -27,9 +27,12 @@ export class MapComponent implements OnInit, AfterContentInit {
           address=> this.addressess.push(address)
         ));
      });
-    //  console.log(this.addressess);
+    //  console.log(this.addressess)
+  }
 
-//---------------------------------Geo Service 
+  ngOnInit() {
+
+    //---------------------------------Geo Service 
     this.addressess.forEach(a=>{
        this.geo.getRequest(a.AddressLine1,a.City,a.Country,a.PostalCode,a.Region)
        //.subscribe(res=>this.geoResponse.push(res as object ));
@@ -37,24 +40,15 @@ export class MapComponent implements OnInit, AfterContentInit {
        .subscribe(res=>res["results"].forEach(s=>{this.positions.push(s.geometry.location)}) ); 
         //.subscribe(res=>res["results"].forEach(s=>{console.log(s.geometry.location)}) ); 
      });
-     //console.log( this.positions)
-    //positions
-
-  }
-
-  ngOnInit() {
-
   }
   ngAfterContentInit(): void {
-   //console.log(this.geoResponse)
   }
 
   marker = {
     display: true,
     lat: null,
     lng: null,
-    fa:null
-   
+    fa: []
   };
 
   clicked({target: marker}) {
@@ -63,14 +57,15 @@ export class MapComponent implements OnInit, AfterContentInit {
 
     let reverse: any[]=[]
     this.geo.reversGeoCode(marker.getPosition().lat(), marker.getPosition().lng())
-    //.subscribe(res=>res["results"].forEach(e=> console.log(e.geometry.location.lng)));
-    .subscribe(res=>res["results"].forEach(e=> {
+    .subscribe(res=>res["results"].filter(e=> {
       if((e.geometry.location.lat=this.marker.lat) || (e.geometry.location.lng=this.marker.lng)){
-       // this.marker.fa=e.formatted_address;
-       console.log(e.formatted_address)
+      // console.log(e["formatted_address"])
+       this.marker.fa=e.formatted_address;
+      // this.marker.fa.push(e.formatted_address);
       }}));
-      //console.log(this.marker.fa);
-
+    console.log(this.marker.fa)
+    
+    
     marker.nguiMapComponent.openInfoWindow('iw', marker);
   }
 

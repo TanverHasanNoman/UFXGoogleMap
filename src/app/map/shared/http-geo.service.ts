@@ -19,13 +19,13 @@ export class HttpGeoService {
     let formatedCountry: string=country.replace(' ', '+');
     let formatedPostalCode: string=postalCode.replace(' ','+');
     let formatedRegion: string =region.replace(' ', '+');
-    return this.http.get(this.url+"address="+formatedAddress+"+"+formatedCity+"+"+formatedCountry+"+"+formatedPostalCode+"+"+formatedRegion+"&key=AIzaSyBY31i5ZVo9dYtnUrxdCWgjbq7cl6IJBaE")
+    return this.http.get(this.url+"address="+formatedAddress+"+"+formatedCity+"+"+formatedCountry+"+"+formatedPostalCode+"+"+formatedRegion+"&key=AIzaSyDwnEVotta-gGgOW4YbZGaldGZ7yEL_ESA")
     .map(response => response.json()) 
     .catch(this.handleError);
   }
 
   reversGeoCode(lat: any, lng: any){
-   let api: string="https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lng+"&key=AIzaSyBY31i5ZVo9dYtnUrxdCWgjbq7cl6IJBaE";
+   let api: string="https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lng+"&key=AIzaSyDwnEVotta-gGgOW4YbZGaldGZ7yEL_ESA";
     return this.http.get(api)
     .map(res=> res.json())
     .catch(this.handleError)
