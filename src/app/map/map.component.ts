@@ -1,0 +1,85 @@
+import { Component, OnInit , AfterContentInit} from '@angular/core';
+import { CustomerService } from "app/map/shared/customer.service";
+import { ICustomer, ContactsEntity, AddressesEntity } from "app/map/shared/customer";
+import { NguiMapComponent } from '@ngui/map';
+import { HttpGeoService } from "app/map/shared/http-geo.service";
+import { IMapResponse, ResultsEntity, NortheastOrSouthwestOrLocation } from "app/map/shared/map-response";
+@Component({
+  selector: 'app-map',
+  templateUrl: './map.component.html',
+  styleUrls: ['./map.component.css']
+})
+export class MapComponent implements OnInit, AfterContentInit {
+  data: ICustomer[]=[];
+  addressess:AddressesEntity[]=[];
+  geoResponse: object[]=[];
+  positions: any[] = [];
+  
+ 
+  constructor(private req: CustomerService, private geo: HttpGeoService) {
+   //-------------------Customer service
+    this.req.getEvents().subscribe(res=>this.data=res);
+    //console.log(this.data);
+    this.data.forEach(element => {
+      element.Contacts.forEach(
+        item=> item.Addresses.filter(f=>
+          f.AddressLine1!=null && f.PostalCode!=null).forEach(
+          address=> this.addressess.push(address)
+        ));
+     });
+    //  console.log(this.addressess);
+
+//---------------------------------Geo Service 
+    this.addressess.forEach(a=>{
+       this.geo.getRequest(a.AddressLine1,a.City,a.Country,a.PostalCode,a.Region)
+       //.subscribe(res=>this.geoResponse.push(res as object ));
+      // .subscribe(res=>console.log(res["results"] )); 
+       .subscribe(res=>res["results"].forEach(s=>{this.positions.push(s.geometry.location)}) ); 
+        //.subscribe(res=>res["results"].forEach(s=>{console.log(s.geometry.location)}) ); 
+     });
+     //console.log( this.positions)
+    //positions
+
+  }
+
+  ngOnInit() {
+
+  }
+  ngAfterContentInit(): void {
+   //console.log(this.geoResponse)
+  }
+
+  marker = {
+    display: true,
+    lat: null,
+    lng: null,
+    fa:null
+   
+  };
+
+  clicked({target: marker}) {
+    this.marker.lat = marker.getPosition().lat();
+    this.marker.lng = marker.getPosition().lng();
+
+    let reverse: any[]=[]
+    this.geo.reversGeoCode(marker.getPosition().lat(), marker.getPosition().lng())
+    //.subscribe(res=>res["results"].forEach(e=> console.log(e.geometry.location.lng)));
+    .subscribe(res=>res["results"].forEach(e=> {
+      if((e.geometry.location.lat=this.marker.lat) || (e.geometry.location.lng=this.marker.lng)){
+       // this.marker.fa=e.formatted_address;
+       console.log(e.formatted_address)
+      }}));
+      //console.log(this.marker.fa);
+
+    marker.nguiMapComponent.openInfoWindow('iw', marker);
+  }
+
+  hideMarkerInfo() {
+    this.marker.display = !this.marker.display;
+  }
+  
+}
+
+
+
+

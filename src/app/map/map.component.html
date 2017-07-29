@@ -1,0 +1,50 @@
+ <!-- <p>
+  map works!
+</p>
+<div class="row" *ngFor="let address of addressess">
+ <p>    AddressLine1:  {{address?.AddressLine1}}</p>
+ <p>    AddressLine2:   {{address?.AddressLine2}}</p>
+ <p>    City : {{address?.City}}</p>
+  <p>   Region {{address?.Region}}</p>
+  <p>   PostalCode: {{address?.PostalCode}}</p>
+  <p>   Address: {{address?.Country}}</p>
+<hr>
+</div>  -->
+<!-- <div class="row">
+  <div  *ngFor="let customer of data">
+    <p>{{customer?.Id}}</p>
+    <p>{{customer?.Status}}</p>
+    <p>{{customer?.ProviderName}}</p>
+    <hr>
+    <div *ngFor="let contact of customer?.Contacts">
+        <p>{{contact?.ContactID}}</p>
+        <p>{{contact?.ContactStatus}}</p>
+        <p>{{contact?.Name}}</p>
+        <hr><hr>
+    </div>
+    
+  </div>
+</div> -->
+
+  <div class="row">
+   <div *ngFor="let po of  positions; let i=index">
+     <p>{{i}} : {{ po["lat"] }}  {{po["lng"]}}</p> 
+   </div>
+  </div> 
+  <!-- <ngui-map zoom="3" center="{{myLatLng}}">
+    <marker *ngFor="let pos of positions" [position]="pos"></marker>
+  </ngui-map>  -->
+
+
+  <ngui-map center="Brampton, Canada">
+    <marker *ngFor="let po of  positions" [position]="po" draggable="true" (click)="clicked($event)"></marker>
+       <info-window  id="iw" > 
+          <div *ngIf="marker.display">
+          lat: {{ marker.lat }}, lng: {{ marker.lng }} 
+      </div>
+      <button (click)="hideMarkerInfo()">Hide Info</button>
+    </info-window> 
+  </ngui-map>
+<br>  <br><br><br><br>
+ <!-- <ngui-map center="Brampton, Canada"></ngui-map>  -->
+
