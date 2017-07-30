@@ -26,11 +26,11 @@
   </div>
 </div> -->
 
-  <div class="row">
+  <!-- <div class="row">
    <div *ngFor="let po of  positions; let i=index">
      <p>{{i}} : {{ po["lat"] }}  {{po["lng"]}}</p> 
    </div>
-  </div> 
+  </div>  -->
   <!-- <ngui-map zoom="3" center="{{myLatLng}}">
     <marker *ngFor="let pos of positions" [position]="pos"></marker>
   </ngui-map>  -->
@@ -38,11 +38,11 @@
 
   <ngui-map center="New York, United States">
     <marker *ngFor="let po of  positions" [position]="po" draggable="true" (click)="clicked($event)"></marker>
-       <info-window  id="iw" > 
+       <info-window  id="iw"  > 
           <div *ngIf="marker.display">
-          lat: {{ marker.lat }}, lng: {{ marker.lng }} addr: {{marker.fa}}
+          <!-- lat: {{ marker.lat }}, lng: {{ marker.lng }} --> Address: {{marker.fa}} 
       </div>
-      <button (click)="hideMarkerInfo()">Hide Info</button>
+      <!-- <button (click)="hideMarkerInfo()">Hide Info</button> -->
     </info-window> 
   </ngui-map>
 <br>  <br><br><br><br>

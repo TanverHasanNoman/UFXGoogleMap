@@ -50,22 +50,19 @@ export class MapComponent implements OnInit, AfterContentInit {
     lng: null,
     fa: []
   };
-
+ reverseAddress: any[]=[];
   clicked({target: marker}) {
+
+    
     this.marker.lat = marker.getPosition().lat();
     this.marker.lng = marker.getPosition().lng();
 
     let reverse: any[]=[]
     this.geo.reversGeoCode(marker.getPosition().lat(), marker.getPosition().lng())
-    .subscribe(res=>res["results"].filter(e=> {
-      if((e.geometry.location.lat=this.marker.lat) || (e.geometry.location.lng=this.marker.lng)){
-      // console.log(e["formatted_address"])
-       this.marker.fa=e.formatted_address;
-      // this.marker.fa.push(e.formatted_address);
-      }}));
-    console.log(this.marker.fa)
+    .subscribe(res=>this.marker.fa=res.results[1].formatted_address);
     
-    
+   
+
     marker.nguiMapComponent.openInfoWindow('iw', marker);
   }
 
@@ -78,3 +75,47 @@ export class MapComponent implements OnInit, AfterContentInit {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // clicked({target: marker}) {
+
+    
+  //   this.marker.lat = marker.getPosition().lat();
+  //   this.marker.lng = marker.getPosition().lng();
+
+  //   let reverse: any[]=[]
+  //   this.geo.reversGeoCode(marker.getPosition().lat(), marker.getPosition().lng())
+  //   .subscribe(res=>res["results"].filter(e=> {
+  //     if((e.geometry.location.lat=this.marker.lat) || (e.geometry.location.lng=this.marker.lng)){
+  //    // console.log("formated addres ")
+  //       console.log(e["formatted_address"])
+  //     // this.marker.fa=e.formatted_address;
+  //      this.reverseAddress.push(e.formatted_address);
+  //     }}));
+    
+  //   console.log(this.reverseAddress);
+  //   console.log("------------");
+  //   this.marker.fa=this.reverseAddress.shift();
+  //   console.log(this.marker.fa)
+
+  //   marker.nguiMapComponent.openInfoWindow('iw', marker);
+  // }
+
+  // hideMarkerInfo() {
+  //   this.marker.display = !this.marker.display;
+  // }
+  
