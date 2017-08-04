@@ -36,7 +36,7 @@
   </ngui-map>  -->
 
 
-  <ngui-map  zoom="13"  center="New York, United States"  [fullscreenControl]="true" style="height:900px">
+  <ngui-map center="New York, United States">
     <marker *ngFor="let po of  positions" [position]="po" draggable="true" (click)="clicked($event)"></marker>
        <info-window  id="iw"  > 
           <div *ngIf="marker.display">
